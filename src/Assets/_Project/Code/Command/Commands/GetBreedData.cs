@@ -3,13 +3,14 @@ using Zenject;
 
 namespace Project
 {
-    public class GetBreeds : ICommand
+    public class GetBreedData : ICommand
     {
         private FactsController _factsController;
         
         private CancellationTokenSource _tokenSource;
 
         public bool IsCancellation => _tokenSource.IsCancellationRequested;
+        public string BreedId { get; set; }
 
         [Inject]
         public void Construct(FactsController controller)
@@ -20,7 +21,7 @@ namespace Project
         public void Execute()
         {
             _tokenSource = new CancellationTokenSource();
-            _factsController.UpdateModelAsync(_tokenSource);
+            _factsController.GetBreedDataAsync(BreedId, _tokenSource);
         }
 
         public void Undo()
